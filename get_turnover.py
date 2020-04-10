@@ -23,12 +23,10 @@ def update_turnover(gid, date_time, turnover):
     cursor.commit()
     conn.close()
 
-update_turnover('600031', '2020-5-1', 0.1)
 date_str = time.strftime('%Y-%m-%d')
 df = ts.get_today_all()
 i = 0
-
 while (i < df['turnoverratio'].size):
-    print(date_str + ' ' + df['code'][i] + ' ' + df['turnoverratio'][i])
+    print(date_str + ' ' + df['code'][i] + ' ' + str(df['turnoverratio'][i])+'\r\n')
     update_turnover(df['code'][i], date_str, float(df['turnoverratio'][i]))
     i = i + 1
