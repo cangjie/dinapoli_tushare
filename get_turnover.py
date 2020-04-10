@@ -29,5 +29,6 @@ df = ts.get_today_all()
 i = 0
 
 while (i < df['turnoverratio'].size):
+    print(date_str + ' ' + df['code'][i] + ' ' + df['turnoverratio'][i])
     update_turnover(df['code'][i], date_str, float(df['turnoverratio'][i]))
     i = i + 1
