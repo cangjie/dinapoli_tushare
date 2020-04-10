@@ -20,7 +20,7 @@ if (not(path_obj.is_dir())):
     path_obj.mkdir('data')
 
 def get_sql_server_connect_string():
-    return 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=52.80.17.211,9753;DATABASE=stock;UID=sa;PWD=Jarrod780209'
+    return 'DRIVER=' + config.sql_server_driver + ';SERVER=52.80.17.211,9753;DATABASE=stock;UID=sa;PWD=Jarrod780209'
 
 def get_sql_server_conn():
     return pyodbc.connect(get_sql_server_connect_string())

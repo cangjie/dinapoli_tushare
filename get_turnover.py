@@ -23,9 +23,8 @@ def update_turnover(gid, date_time, turnover):
     cursor.commit()
     conn.close()
 
-#update_turnover('600031', '2020-5-1', 0.1)
+update_turnover('600031', '2020-5-1', 0.1)
 date_str = time.strftime('%Y-%m-%d')
-#str(time.time().strftime('%Y-%m-%d'))
 df = ts.get_today_all()
 i = 0
 
