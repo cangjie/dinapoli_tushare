@@ -154,3 +154,4 @@ def load_df_from_redis(gid, ktype):
 #volume_arr = df['volume']
 #turnover_arr = df['turnover']
 #print(df)
+
