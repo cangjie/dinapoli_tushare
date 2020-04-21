@@ -39,11 +39,11 @@ while start_index < gid_arr.__len__() :
                     exists = True
 
             if (not(exists)):
-                pipe.zadd(key_str, value_str, timestamp)
+                try:
+                    pipe.zadd(key_str, {value_str: timestamp})
+                except Exception as redis_err:
+                    print(str(redis_err) + '\r\n')
                 pipe.expire(key_str, 31536000)
-
-            #pipe.delete(key_str)
-
             j = j + 1
         pipe.execute()
     except Exception as e:
