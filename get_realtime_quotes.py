@@ -1,9 +1,9 @@
 import tushare
 util = __import__('util')
+util.append_log('get_realtime_quotes.log', 'start snap.')
 all_gids_arr = util.redis_client.smembers('all_gids')
 pipe = util.redis_pipe
 redis = util.redis_client
-
 i = 0
 gid_arr = []
 for gid_name_pair in all_gids_arr:
@@ -32,12 +32,10 @@ while start_index < gid_arr.__len__() :
                         + ',' + str(df['low'][j] + ',' + str(df['volume'][j]))
             last_line_set = redis.zrange(key_str, 0, -1, withscores=1)
             exists = False
-
             if (len(last_line_set)>0):
                 last_line = last_line_set[len(last_line_set)- 1]
                 if (int(timestamp) <= int(last_line[1])):
                     exists = True
-
             if (not(exists)):
                 try:
                     pipe.zadd(key_str, {value_str: timestamp})
@@ -56,6 +54,6 @@ try:
     pipe.bgsave()
 except:
     print('bgsave error')
-
+util.append_log('get_realtime_quotes.log', 'finish snap.')
 
 
