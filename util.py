@@ -7,6 +7,7 @@ import redis
 import time
 from pathlib import Path
 import pyodbc
+import sys
 
 data_path = os.getcwd()
 path_splitor = '/'
@@ -23,6 +24,9 @@ def append_log(file_name, log_string):
     f = open(config.current_path+'/'+file_name, mode='ab')
     f.write((time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) + '\t' + log_string + '\r\n').encode('utf-8'))
     f.close()
+
+def get_current_os():
+    return sys.platform
 
 def get_sql_server_connect_string():
     return 'DRIVER=' + config.sql_server_driver + ';SERVER=52.80.17.211,9753;DATABASE=stock;UID=sa;PWD=Jarrod780209'

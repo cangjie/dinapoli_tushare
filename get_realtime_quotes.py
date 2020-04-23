@@ -43,9 +43,14 @@ while (runtimes > 0):
                     last_line = last_line_set[len(last_line_set)- 1]
                     if (int(timestamp) <= int(last_line[1])):
                         exists = True
+                exists = False
                 if (not(exists)):
                     try:
-                        pipe.zadd(key_str, {value_str: timestamp})
+                        platform = util.get_current_os()
+                        if (platform == 'darwin'):
+                            pipe.zadd(key_str, value_str, timestamp)
+                        else:
+                            pipe.zadd(key_str, {value_str: timestamp})
                     except Exception as redis_err:
                         print(str(redis_err) + '\r\n')
                     pipe.expire(key_str, 31536000)
