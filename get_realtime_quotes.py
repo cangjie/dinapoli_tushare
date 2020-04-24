@@ -56,11 +56,12 @@ while (runtimes > 0):
                                 pipe.zadd(key_str, {value_str: timestamp})
                     except Exception as redis_err:
                         print(str(redis_err) + '\r\n')
-                    pipe.expire(key_str, 31536000)
+                    pipe.expire(key_str, 0)
                 j = j + 1
-            pipe.execute()
         except Exception as e:
             print(str(e) + '\r\n')
+        finally:
+            pipe.execute()
         start_index = end_index + 1
         end_index = start_index + step - 1
         if (end_index >= gid_arr.__len__()):
