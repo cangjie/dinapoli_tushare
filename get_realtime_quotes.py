@@ -1,6 +1,7 @@
 import tushare
 import time
 util = __import__('util')
+config = __import__('config')
 util.append_log('get_realtime_quotes.log', 'start snap.')
 all_gids_arr = util.redis_client.smembers('all_gids')
 pipe = util.redis_pipe
@@ -13,7 +14,7 @@ for gid_name_pair in all_gids_arr:
     i = i + 1
 
 
-runtimes = 2
+runtimes = config.get_all_realtime_data_run_times_per_minute
 
 while (runtimes > 0):
     runtimes = runtimes - 1
