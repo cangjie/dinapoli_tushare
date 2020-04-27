@@ -77,9 +77,9 @@ def refresh_all_gids():
             gid = 'sz' + gid
         redis_pipe.sadd('all_gids', gid + ' ' + s_name[i])
         i = i + 1
-    redis_pipe.expire('all_gids', 31536000)
-    redis_pipe.bgsave()
+    redis_pipe.persist('all_gids')
     redis_pipe.execute()
+    redis_pipe.bgsave()
 
 def get_timestamp(date_time, date_time_format):
     time_arr = time.strptime(date_time, date_time_format)
