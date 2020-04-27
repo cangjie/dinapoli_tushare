@@ -54,14 +54,19 @@ while (runtimes > 0):
                                 pipe.zadd(key_str, {value_str: timestamp})
                             else:
                                 pipe.zadd(key_str, {value_str: timestamp})
+                            util.append_log('get_realtime_quotes.log',
+                                            'zadd ' + key_str + ' ' + value_str + ' ' + timestamp)
                     except Exception as redis_err:
-                        print(str(redis_err) + '\r\n')
+                        util.append_log('get_realtime_quotes.log', str(redis_err))
+                        #print(str(redis_err) + '\r\n')
                     pipe.expire(key_str, 0)
                 j = j + 1
         except Exception as e:
-            print(str(e) + '\r\n')
+            util.append_log('get_realtime_quotes.log', str(e))
+            #print(str(e) + '\r\n')
         finally:
             pipe.execute()
+            util.append_log('get_realtime_quotes.log', 'pipe excuted')
         start_index = end_index + 1
         end_index = start_index + step - 1
         if (end_index >= gid_arr.__len__()):
