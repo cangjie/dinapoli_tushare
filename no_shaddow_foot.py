@@ -1,3 +1,4 @@
+import datetime
 util = __import__('util')
 
 
@@ -70,5 +71,7 @@ def scan_foot_for_day(date_str):
     conn.close()
 
 
-
-scan_foot_for_day('20200507')
+today = datetime.date.today()
+formated_today = today.strftime('%Y%m%d')
+#print(formated_today)
+scan_foot_for_day(formated_today)
