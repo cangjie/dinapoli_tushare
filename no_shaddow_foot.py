@@ -71,4 +71,4 @@ def scan_foot_for_day(date_str):
 
 
 
-scan_foot_for_day('20200506')
+scan_foot_for_day('20200507')
