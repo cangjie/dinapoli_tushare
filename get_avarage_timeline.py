@@ -25,9 +25,13 @@ def update_avarage(date_str, gid, current_price, avarage_price, percent):
             cursor.execute(sql)
         except Exception as err:
             print('err')
-    cursor.commit()
-    cursor.close()
-    conn.close()
+    try:
+        cursor.commit()
+    except Exception as exp:
+        print('err2')
+    finally:
+        cursor.close()
+        conn.close()
 
 
 def compute_avarage(formated_today):
