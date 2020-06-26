@@ -69,7 +69,3 @@ def compute_avarage(formated_today):
 
 
 compute_avarage(datetime.date.today().strftime('%Y%m%d'))
-
-
-
-
