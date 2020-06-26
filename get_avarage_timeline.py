@@ -63,20 +63,14 @@ def compute_avarage(formated_today):
                 if (current_price > avarage_price):
                     over_avarage_times = over_avarage_times + 1
             i = i + 1
-        print(formated_today + ' ' + gid + ' ' + str(avarage_price) + ' ' +str(100*over_avarage_times/float(timeline_list.__len__()))+'%')
+        print(formated_today + ' ' + gid + ' ' + str(round(avarage_price, 2)) + ' ' +str(round(100*over_avarage_times/float(timeline_list.__len__()), 2))+'%')
         update_avarage(formated_today, gid, current_price, avarage_price, over_avarage_times/float(timeline_list.__len__()))
 
 
 
 #compute_avarage(datetime.date.today().strftime('%Y%m%d'))
 
-compute_avarage('20200506')
-compute_avarage('20200507')
-compute_avarage('20200508')
 
-
-
-compute_avarage('20200511')
 compute_avarage('20200512')
 compute_avarage('20200513')
 compute_avarage('20200514')
