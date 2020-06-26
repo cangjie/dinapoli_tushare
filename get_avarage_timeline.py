@@ -68,30 +68,8 @@ def compute_avarage(formated_today):
 
 
 
-#compute_avarage(datetime.date.today().strftime('%Y%m%d'))
-
-compute_avarage('20200513')
-compute_avarage('20200514')
-compute_avarage('20200515')
-
-compute_avarage('20200518')
-compute_avarage('20200519')
-compute_avarage('20200520')
-compute_avarage('20200521')
-compute_avarage('20200522')
+compute_avarage(datetime.date.today().strftime('%Y%m%d'))
 
 
 
-compute_avarage('20200525')
-compute_avarage('20200526')
-compute_avarage('20200527')
-compute_avarage('20200528')
-compute_avarage('20200529')
 
-
-
-compute_avarage('20200601')
-compute_avarage('20200602')
-compute_avarage('20200603')
-compute_avarage('20200604')
-compute_avarage('20200605')
