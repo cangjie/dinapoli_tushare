@@ -10,7 +10,6 @@ for gid_name_pair in all_gids_arr:
     gid_name_pair_str = gid_name_pair.decode(encoding='utf-8')
     gid_arr.append(gid_name_pair_str.split(' ')[0])
 
-
 def update_avarage(date_str, gid, current_price, avarage_price, percent):
     sql = " delete alert_avarage_timeline where alert_date = '" + date_str[0:4] + "-" + date_str[4:6] + "-" \
           + date_str[6:9] + "' and gid = '" + gid + "' "
@@ -69,38 +68,38 @@ def compute_avarage(formated_today):
 
 
 
-compute_avarage(datetime.date.today().strftime('%Y%m%d'))
+#compute_avarage(datetime.date.today().strftime('%Y%m%d'))
 
-#compute_avarage('20200506')
-#compute_avarage('20200507')
-#compute_avarage('20200508')
-
-
-
-#compute_avarage('20200511')
-#compute_avarage('20200512')
-#compute_avarage('20200513')
-#compute_avarage('20200514')
-#compute_avarage('20200515')
-
-#compute_avarage('20200518')
-#compute_avarage('20200519')
-#compute_avarage('20200520')
-#compute_avarage('20200521')
-#compute_avarage('20200522')
+compute_avarage('20200506')
+compute_avarage('20200507')
+compute_avarage('20200508')
 
 
 
-#compute_avarage('20200525')
-#compute_avarage('20200526')
-#compute_avarage('20200527')
-#compute_avarage('20200528')
-#compute_avarage('20200529')
+compute_avarage('20200511')
+compute_avarage('20200512')
+compute_avarage('20200513')
+compute_avarage('20200514')
+compute_avarage('20200515')
+
+compute_avarage('20200518')
+compute_avarage('20200519')
+compute_avarage('20200520')
+compute_avarage('20200521')
+compute_avarage('20200522')
 
 
 
-#compute_avarage('20200601')
-#compute_avarage('20200602')
-#compute_avarage('20200603')
-#compute_avarage('20200604')
-#compute_avarage('20200605')
+compute_avarage('20200525')
+compute_avarage('20200526')
+compute_avarage('20200527')
+compute_avarage('20200528')
+compute_avarage('20200529')
+
+
+
+compute_avarage('20200601')
+compute_avarage('20200602')
+compute_avarage('20200603')
+compute_avarage('20200604')
+compute_avarage('20200605')
