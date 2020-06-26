@@ -70,8 +70,6 @@ def compute_avarage(formated_today):
 
 #compute_avarage(datetime.date.today().strftime('%Y%m%d'))
 
-
-compute_avarage('20200512')
 compute_avarage('20200513')
 compute_avarage('20200514')
 compute_avarage('20200515')
