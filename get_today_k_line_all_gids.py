@@ -21,6 +21,8 @@ while (i < df['code'].size):
     str_key_name = gid + '_kline_' + kline_type
     kline_list = redis.zrange(str_key_name, 0, -1)
     last_index = len(kline_list)-1
+    if (last_index < 0):
+        continue
     str_last_date = str(kline_list[last_index]).split(',')[1].strip()
     str_last_date = str_last_date.split(' ')[0]
     if (str_current_date == str_last_date):
