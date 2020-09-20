@@ -22,6 +22,7 @@ while (i < df['code'].size):
     kline_list = redis.zrange(str_key_name, 0, -1)
     last_index = len(kline_list)-1
     if (last_index < 0):
+        i = i + 1
         continue
     str_last_date = str(kline_list[last_index]).split(',')[1].strip()
     str_last_date = str_last_date.split(' ')[0]
