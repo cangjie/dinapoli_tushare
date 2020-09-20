@@ -14,8 +14,10 @@ str_current_date = str_current_date.split(' ')[0]
 df = ts.get_today_all()
 i = 0
 while (i < df['code'].size):
+
     gid = df['code'][i]
     gid = util.get_8_digit_gid(gid)
+    print(str(df['code'].size - i) + ' ' + gid)
     str_key_name = gid + '_kline_' + kline_type
     kline_list = redis.zrange(str_key_name, 0, -1)
     last_index = len(kline_list)-1
