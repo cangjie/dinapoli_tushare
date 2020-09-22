@@ -147,6 +147,21 @@ def load_df_from_redis(gid, ktype):
     df['volume'] = pandas.Series(volume_arr, index=date_time_arr)
     return df
 
+def is_holiday(current_date):
+    str_date_format = '%Y-%m-%d'
+    timestamp_current_date = get_timestamp(current_date, str_date_format)
+    result = False
+    holidays_arr = redis_client.smembers('holidays')
+    for holiday in holidays_arr:
+        str_holiday = str(holiday).replace('b', '').replace('\'', '')
+        start_day = str(str_holiday).split(',')[0].strip()
+        end_day = str(str_holiday).split(',')[1].strip()
+        if (get_timestamp(str(start_day), str_date_format) <= timestamp_current_date
+                <= get_timestamp(str(end_day), str_date_format)):
+            result = True
+            break
+    return result
+
 #print(load_df_from_redis('600031', 'D'))
 #print(get_timestamp('2020-04-01', '%Y-%m-%d'))
 
