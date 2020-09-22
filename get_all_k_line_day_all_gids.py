@@ -39,5 +39,5 @@ while (len(all_gids) > 0):
                     pipe.zadd(str_key_name, {value_str: timestamp})
             pipe.persist(str_key_name)
             j = j - 1
-    pipe.execute(str_key_name)
+    pipe.execute()
 redis.bgsave()
