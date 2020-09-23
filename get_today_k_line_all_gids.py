@@ -33,6 +33,7 @@ while (i < df['code'].size):
         + str(df['high'][i]) + ',' + str(df['low'][i]) + ',' + str(int(df['volume'][i])) + ',' \
         + str(df['amount'][i])
     timestamp = util.get_timestamp(str_current_date, '%Y-%m-%d')
+    print(timestamp)
     if (platform == 'darwin' or platform == 'win32'):
         pipe.zadd(str_key_name, value_str, timestamp)
         print('zadd ' + str(timestamp) + ' ' + value_str + ' ' + platform)
