@@ -35,11 +35,14 @@ while (i < df['code'].size):
     timestamp = util.get_timestamp(str_current_date, '%Y-%m-%d')
     if (platform == 'darwin' or platform == 'win32'):
         pipe.zadd(str_key_name, value_str, timestamp)
+        print('zadd ' + str(timestamp) + ' ' + value_str + ' ' + platform)
     else:
         if (platform == 'linux'):
             pipe.zadd(str_key_name, {value_str: timestamp})
+            print('zadd ' + str(timestamp) + ' ' + value_str + ' ' + platform)
         else:
             pipe.zadd(str_key_name, {value_str: timestamp})
+            print('zadd ' + str(timestamp) + ' ' + value_str + ' ' + platform)
     pipe.persist(str_key_name)
     pipe.execute()
     value_str = ''
