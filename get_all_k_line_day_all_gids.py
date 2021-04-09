@@ -30,13 +30,15 @@ while (len(all_gids) > 0):
             value_str = str_code + ',' + str_kline_date + ' 9:30:00,' + str(df_kline['open'][j]) \
                 + ',' + str(df_kline['close'][j]) + ',' + str(df_kline['high'][j]) + ',' + str(df_kline['low'][j]) \
                 + ',' + str(int(100 * float(df_kline['volume'][j]))) + ',0'
-            if (platform == 'darwin' or platform == 'win32'):
-                pipe.zadd(str_key_name, value_str, timestamp)
-            else:
-                if (platform == 'linux'):
-                    pipe.zadd(str_key_name, {value_str: timestamp})
-                else:
-                    pipe.zadd(str_key_name, {value_str: timestamp})
+
+            pipe.zadd(str_key_name, {value_str: timestamp})
+            #if (platform == 'darwin' or platform == 'win32'):
+            #    pipe.zadd(str_key_name, value_str, timestamp)
+            #else:
+            #    if (platform == 'linux'):
+            #        pipe.zadd(str_key_name, {value_str: timestamp})
+            #    else:
+            #        pipe.zadd(str_key_name, {value_str: timestamp})
             pipe.persist(str_key_name)
             j = j - 1
     pipe.execute()

@@ -9,16 +9,7 @@ from pathlib import Path
 import pyodbc
 import sys
 
-data_path = os.getcwd()
-path_splitor = '/'
-if (data_path.find('\\') >= 0):
-    path_splitor = '\\'
-data_path = data_path + path_splitor + config.data_sub_path
-redis_client = redis.Redis(host=config.redis_ip, port=config.redis_port, db=config.redis_db)
-redis_pipe = redis_client.pipeline()
-path_obj = Path(data_path)
-if (not(path_obj.is_dir())):
-    path_obj.mkdir('data')
+
 
 def append_log(file_name, log_string):
     f = open(config.current_path+'/'+file_name, mode='ab')
@@ -161,6 +152,21 @@ def is_holiday(current_date):
             result = True
             break
     return result
+
+
+data_path = os.getcwd()
+if (get_current_os()=='win32'):
+    path_splitor = '\\'
+else:
+    path_splitor = '/'
+if (data_path.find('\\') >= 0):
+    path_splitor = '\\'
+data_path = data_path + path_splitor + config.data_sub_path
+redis_client = redis.Redis(host=config.redis_ip, port=config.redis_port, db=config.redis_db)
+redis_pipe = redis_client.pipeline()
+path_obj = Path(data_path)
+if (not(path_obj.is_dir())):
+    path_obj.mkdir('data')
 
 #print(load_df_from_redis('600031', 'D'))
 #print(get_timestamp('2020-04-01', '%Y-%m-%d'))
