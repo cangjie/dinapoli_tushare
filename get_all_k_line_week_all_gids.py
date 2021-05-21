@@ -22,7 +22,7 @@ while (len(all_gids) > 0):
     while (j < df_kline.index.size):
         str_kline_date = df_kline.index[j]
         timestamp = util.get_timestamp(str_kline_date, '%Y-%m-%d')
-        value_str = str_code + ',' + str_kline_date + ' 9:30:00,' + str(df_kline['open'][j]) \
+        value_str = str_code + ',' + str_kline_date + ' 15:00:00,' + str(df_kline['open'][j]) \
             + ',' + str(df_kline['close'][j]) + ',' + str(df_kline['high'][j]) + ',' + str(df_kline['low'][j]) \
             + ',' + str(int(100 * float(df_kline['volume'][j]))) + ',0'
         pipe.zadd(str_key_name, {value_str: timestamp})
