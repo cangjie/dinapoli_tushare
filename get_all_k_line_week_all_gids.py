@@ -45,19 +45,13 @@ while (len(all_gids) > 0):
         #time.sleep(0.2)
     except Exception as err:
         print(err)
-        time.sleep(30)
-        print('try to resave')
-        pipe.execute()
-        #time.sleep(0.2)
-        print('resave success')
+        isErr = True
+        while (isErr):
+            time.sleep(10)
+            try:
+                pipe.execute()
+                isErr = False
+            except Exception as innerErr:
+                print(innerErr)
 
-
-try:
-
-    pipe.execute()
-    time.sleep(15)
-except:
-    time.sleep(60)
-    pipe.execute()
-    time.sleep(15)
 redis.bgsave()

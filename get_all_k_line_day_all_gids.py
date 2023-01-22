@@ -17,7 +17,7 @@ while (len(all_gids) > 0):
     str_code = str_code.split(' ')[0].strip().replace('b\'', '')
     print(str(len(all_gids)) + ' ' + str_code)
     str_key_name = str_code + '_kline_' + kline_type.strip()
-    kline_list = redis.zrange(str_key_name, 0, -1)
+    #kline_list = redis.zrange(str_key_name, 0, -1)
     df_kline = ts.get_hist_data(str_code[2:8])
     if (df_kline is None):
         continue
@@ -43,9 +43,13 @@ while (len(all_gids) > 0):
         pipe.execute()
     except Exception as err:
         print(err)
-        time.sleep(60)
-        print('start resave')
-        pipe.execute()
-        print('end resave')
-
+        isErr = True
+        while(isErr):
+            time.sleep(10)
+            try:
+                pipe.execute()
+                isErr = False
+            except Exception as innerErr:
+                print(innerErr)
+                isErr = True
 redis.bgsave()
