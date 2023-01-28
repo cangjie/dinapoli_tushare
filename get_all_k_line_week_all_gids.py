@@ -27,7 +27,9 @@ while (len(all_gids) > 0):
     #df_kline = ts.get_hist_data('sz833971', ktype='W')
     if (df_kline is None):
         continue
-
+    str_start_date = df_kline.index[df_kline.index.size - 1]
+    timestamp_start_date = util.get_timestamp(str_start_date, '%Y-%m-%d')
+    pipe.zremrangebyscore(str_key_name, timestamp_start_date, today_timestamp)
     j = df_kline.index.size-1
 
     while (j>=0):
