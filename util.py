@@ -1,6 +1,5 @@
 import os
 config = __import__('config')
-import numpy
 import pandas
 import tushare
 import redis
@@ -20,7 +19,8 @@ def get_current_os():
     return sys.platform
 
 def get_sql_server_connect_string():
-    return 'DRIVER=' + config.sql_server_driver + ';SERVER=52.80.17.211,9753;DATABASE=stock;UID=sa;PWD=Jarrod780209'
+    return 'DRIVER=' + config.sql_server_driver + ';SERVER=' + config.sql_server_address + ';DATABASE=' \
+           + config.sql_server_db + ';UID=' + config.sql_server_uid  + ';PWD=' + config.sql_server_pwd
 
 def get_sql_server_conn():
     return pyodbc.connect(get_sql_server_connect_string())
