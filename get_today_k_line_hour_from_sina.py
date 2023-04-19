@@ -31,8 +31,8 @@ def refresh_k_line_hour(code):
         if (len(resultTime)>0):
             time = str(resultTime[0])
             klineDate = datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
-            if (currentDate != klineDate.strftime('%Y-%m-%d')):
-                break
+            #if (currentDate != klineDate.strftime('%Y-%m-%d')):
+            #    break
         resultPrice = patternPrice.findall(item)
         resultVolume = patternVolume.findall(item)
         if (len(resultVolume) >= 1):
