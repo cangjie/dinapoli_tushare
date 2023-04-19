@@ -52,6 +52,7 @@ def refresh_k_line(code, time, open, high, low, close, volume):
     str_key_name = code + '_kline_hour'
     timestamp = util.get_timestamp(time, '%Y-%m-%d %H:%M:%S')
     value_str = code + ',' + time + ',' + open + ',' + close + ',' + high + ',' + low + ',' + volume + ',0'
+    pipe.zremrangebyscore(str_key_name, timestamp, timestamp)
     pipe.zadd(str_key_name, {value_str: timestamp})
     pipe.persist(str_key_name)
     return
