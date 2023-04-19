@@ -67,3 +67,6 @@ while (len(all_gids) > 0):
     str_code = str_code.split(' ')[0].strip().replace('b\'', '')
     print(str(len(all_gids)) + ' ' + str_code)
     refresh_k_line_hour(str_code)
+    if (len(all_gids) % 100 == 0):
+        redis.bgsave()
+redis.bgsave()
