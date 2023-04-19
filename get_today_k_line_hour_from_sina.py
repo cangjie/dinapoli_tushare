@@ -11,7 +11,7 @@ currentDateTime = time.localtime()
 currentDate = time.strftime('%Y-%m-%d', currentDateTime)
 
 def refresh_k_line_hour(code):
-    url = 'https://quotes.sina.cn/cn/api/jsonp_v2.php/var%20_' + code + '_60_' + str(timeStamp) + '=/CN_MarketDataService.getKLineData?symbol=sh600031&scale=60&ma=no&datalen=1023'
+    url = 'https://quotes.sina.cn/cn/api/jsonp_v2.php/var%20_' + code + '_60_' + str(timeStamp) + '=/CN_MarketDataService.getKLineData?symbol=' + code + '&scale=60&ma=no&datalen=1023'
     content = req.get(url).text
     #pattern = re.compile(r'\\{ *"day":"\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d" *, ')
     pattern = re.compile(r'[\\{].+?[\\}]')
