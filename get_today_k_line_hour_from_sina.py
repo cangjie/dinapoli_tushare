@@ -31,7 +31,8 @@ def refresh_k_line_hour(code):
         if (len(resultTime)>0):
             time = str(resultTime[0])
             klineDate = datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
-            if (klineDate < datetime.datetime.strptime('2023-01-01 0:0:0', '%Y-%m-%d %H:%M:%S')):
+            #if (klineDate < datetime.datetime.strptime('2023-01-01 0:0:0', '%Y-%m-%d %H:%M:%S')):
+            if (klineDate.date() < datetime.date.today()):
                 break
             #if (currentDate != klineDate.strftime('%Y-%m-%d')):
             #    break
@@ -69,9 +70,13 @@ while (len(all_gids) > 0):
     str_code = str_code.split(' ')[0].strip().replace('b\'', '')
     print(str(len(all_gids)) + ' ' + str_code)
     refresh_k_line_hour(str_code)
-    if (len(all_gids) % 500 == 0):
-        try:
-            redis.bgsave()
-        except Exception as err:
-            print(err)
-redis.bgsave()
+
+    #if (len(all_gids) % 500 == 0):
+    #    try:
+    #        redis.bgsave()
+    #    except Exception as err:
+    #        print(err)
+try:
+    redis.bgsave()
+except Exception as err:
+    print(err)
