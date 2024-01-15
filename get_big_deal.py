@@ -14,20 +14,23 @@ k = 0
 def get_big_deal_per_gid(gid, browser):
     #browser.minimize_window()
     browser.get('https://vip.stock.finance.sina.com.cn/quotes_service/view/cn_bill.php?symbol=' + gid)
-    browser.implicitly_wait(2000)
+    time.sleep(1)
+    #browser.implicitly_wait(5000)
     get_data(gid, browser)
     dateDrop = Select(browser.find_element(By.ID, 'selectTradeDate'))
     i = 1
     while (i <= 4):
         dateDrop.select_by_index(i)
+        time.sleep(1)
         i = i + 1
-        browser.implicitly_wait(2000)
+        #browser.implicitly_wait(5000)
         get_data(gid, browser)
 
 
 
 
 def get_data(gid, browser):
+    browser.implicitly_wait(2000)
     dateDrop = Select(browser.find_element(By.ID, 'selectTradeDate'))
     dateStr = ((dateDrop.first_selected_option.text.replace('年','-'))
                .replace('月','-')).replace('日', '')
@@ -61,6 +64,7 @@ def get_data(gid, browser):
 
 
 
+
 redis = util.redis_client
 browser = webdriver.Chrome()
 browser.minimize_window()
@@ -72,8 +76,12 @@ while (len(all_gids) > 0):
     str_code = str_code.split(' ')[0].strip().replace('b\'', '')
     print(str(len(all_gids)) + ' ' + str_code)
     if (str_code.startswith('sh60') or str_code.startswith('sz00') or str_code.startswith('sz30')):
-        get_big_deal_per_gid(str_code, browser)
-    if (k == 100):
+        try:
+            get_big_deal_per_gid(str_code, browser)
+        except:
+            print('error')
+            continue
+    if (k == 1000):
         browser.close()
         browser.quit()
         browser = webdriver.Chrome()
