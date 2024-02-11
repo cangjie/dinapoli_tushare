@@ -39,7 +39,7 @@ def deal_df(df):
         print(value_str)
         values = redis.zrangebyscore(str_key_name, timestamp, timestamp)
 
-        if (len(values) > 0):
+        if (len(values) == 0):
             pipe.zadd(str_key_name, {value_str: timestamp})
         i = i + 1
     pipe.persist(str_key_name)
