@@ -34,12 +34,13 @@ def deal_df(df):
         amount = int(df['amount'][i] * 100)
         str_key_name = ts_code + '_kline_day'
         timestamp = util.get_timestamp(trade_date, '%Y%m%d')
-        value_str = ts_code + ',' + trade_date_str + ' 9:30:00,' + str(open) \
+        value_str = ts_code + ',' + trade_date_str + ' 09:30:00,' + str(open) \
             + ',' + str(close) + ',' + str(high) + ',' + str(low) \
             + ',' + str(vol) + ',' + str(amount) + ',0'
         print(value_str)
-        values = redis.zrange(str_key_name, timestamp, timestamp, byscore=True)
-        if (len(values) == 0):
+        values = redis.zrangebyscore(str_key_name, timestamp, timestamp)
+
+        if (len(values) > 0):
             pipe.zadd(str_key_name, {value_str: timestamp})
         i = i + 1
     pipe.persist(str_key_name)
