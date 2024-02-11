@@ -30,14 +30,17 @@ def deal_df(df):
         open = df['open'][i]
         high = df['high'][i]
         low = df['low'][i]
-        vol = df['vol'][i]
-        amount = df['amount'][i]
+        vol = int(df['vol'][i] * 100)
+        amount = int(df['amount'][i] * 100)
         str_key_name = ts_code + '_kline_day'
         timestamp = util.get_timestamp(trade_date, '%Y%m%d')
         value_str = ts_code + ',' + trade_date_str + ' 9:30:00,' + str(open) \
             + ',' + str(close) + ',' + str(high) + ',' + str(low) \
             + ',' + str(vol) + ',' + str(amount) + ',0'
-        pipe.zadd(str_key_name, {value_str: timestamp})
+        print(value_str)
+        values = redis.zrange(str_key_name, timestamp, timestamp, byscore=True)
+        if (len(values) == 0):
+            pipe.zadd(str_key_name, {value_str: timestamp})
         i = i + 1
     pipe.persist(str_key_name)
     try:
@@ -72,7 +75,7 @@ today_timestamp = str(int(datetime.datetime.now().timestamp()))
 all_gids = redis.smembers('all_gids')
 nowDate = datetime.datetime.now()
 endDate = nowDate.strftime('%Y%m%d')
-startDate = (nowDate + datetime.timedelta(days=-15)).strftime('%Y%m%d')
+startDate = (nowDate + datetime.timedelta(days=-25)).strftime('%Y%m%d')
 goNext = True
 i = 0
 newCodeList = ''
@@ -87,7 +90,7 @@ while (len(all_gids) > 0):
     else:
         newCodeList = newCodeList + ',' + newCode
     i = i + 1
-    if (i%400==0):
+    if (i%300==0):
         deal_code_list(newCodeList)
         time.sleep(5)
         i = 0
