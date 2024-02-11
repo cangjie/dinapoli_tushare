@@ -26,7 +26,7 @@ def get_money_flow(nowDateStr):
             head = 'kc'
         gid = head + oriCode[0:6]
         key = gid + '_kline_day'
-        values = redis.zrange(key, timestamp, timestamp, byscore=True)
+        values = redis.zrangebyscore(key, timestamp, timestamp)
         if (len(values) > 0):
             j = 0
             done = False
