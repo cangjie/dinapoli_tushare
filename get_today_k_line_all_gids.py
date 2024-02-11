@@ -30,8 +30,7 @@ while (i < df['code'].size):
         pipe.zremrangebyrank(str_key_name, last_index, last_index)
 
     value_str = gid+','+str_current_date+' 9:30:00,'+str(df['open'][i])+','+str(df['trade'][i]) + ','\
-        + str(df['high'][i]) + ',' + str(df['low'][i]) + ',' + str(int(df['volume'][i])) + ',' \
-        + str(df['amount'][i]) + ',0'
+        + str(df['high'][i]) + ',' + str(df['low'][i]) + ',' + str(int(df['volume'][i])) + ',0,0'
     timestamp = util.get_timestamp(str_current_date, '%Y-%m-%d')
     #print(timestamp)
 

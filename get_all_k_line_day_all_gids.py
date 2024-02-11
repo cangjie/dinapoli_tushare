@@ -31,12 +31,11 @@ def deal_df(df):
         high = df['high'][i]
         low = df['low'][i]
         vol = int(df['vol'][i] * 100)
-        amount = int(df['amount'][i] * 100)
         str_key_name = ts_code + '_kline_day'
         timestamp = util.get_timestamp(trade_date, '%Y%m%d')
         value_str = ts_code + ',' + trade_date_str + ' 9:30:00,' + str(open) \
             + ',' + str(close) + ',' + str(high) + ',' + str(low) \
-            + ',' + str(vol) + ',' + str(amount) + ',0'
+            + ',' + str(vol) + ',0,0'
         print(value_str)
         values = redis.zrangebyscore(str_key_name, timestamp, timestamp)
 
