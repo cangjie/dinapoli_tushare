@@ -33,8 +33,9 @@ def get_money_flow(nowDateStr):
             while (j < len(values)):
                 newValue = str(values[j])
                 valueArr = newValue.split(',')
-                redis.zrem(key, values[j])
+
                 if (len(valueArr) == 9 and not done):
+
                     buy_sm_vol = 0
                     sell_sm_vol = 0
                     buy_md_vol = 0
@@ -67,6 +68,7 @@ def get_money_flow(nowDateStr):
                     newValue = newValue + ',' + str(buy_elg_vol) + ',' + str(sell_elg_vol)
                     newValue = newValue + ',' + str(net_mf_vol)
                     print(newValue)
+                    pipe.zrem(key, values[j])
                     pipe.zadd(key, {newValue: timestamp})
                     pipe.persist(key)
                     done = True
