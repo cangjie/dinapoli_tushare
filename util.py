@@ -7,9 +7,8 @@ import time
 from pathlib import Path
 import pyodbc
 import sys
-
-
-
+from datetime import datetime as date
+import datetime
 def append_log(file_name, log_string):
     f = open(config.current_path+'/'+file_name, mode='ab')
     f.write((time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) + '\t' + log_string + '\r\n').encode('utf-8'))
@@ -153,6 +152,35 @@ def is_holiday(current_date):
             break
     return result
 
+def is_trans_day(current_date):
+    currentDate =  date.strptime(current_date, '%Y%m%d')
+    if (currentDate.weekday() > 4):
+        return False
+    conn = get_sql_server_conn()
+    cursor = conn.cursor()
+    ret = True
+    cursor.execute("select * from holidays ")
+    rows = cursor.fetchall()
+    i = 0
+    while (i < len(rows)):
+        row = rows[i]
+        if (currentDate >= row[0] and currentDate <= row[1]):
+            ret = False
+            break
+        i = i + 1
+    return ret
+
+def get_last_trans_day(current_date, days):
+    currentDate = date.strptime(current_date, '%Y%m%d')
+    i = 1
+    while (i <= abs(days) ):
+        currentDate = currentDate + datetime.timedelta(days = -1 * days / abs(days))
+        if (is_trans_day(date.strftime(currentDate, '%Y%m%d'))):
+            i = i + 1
+    return date.strftime(currentDate, '%Y%m%d')
+
+
+
 
 data_path = os.getcwd()
 if (get_current_os()=='win32'):
@@ -168,6 +196,8 @@ path_obj = Path(data_path)
 if (not(path_obj.is_dir())):
     path_obj.mkdir('data')
 
+
+#print(get_last_trans_day('20240219', 1))
 #print(load_df_from_redis('600031', 'D'))
 #print(get_timestamp('2020-04-01', '%Y-%m-%d'))
 
