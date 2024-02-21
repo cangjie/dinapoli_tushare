@@ -67,10 +67,12 @@ def get_tick(gid):
 #get_tick('sh600031')
 
 threads = []
-while (len(gidArr) > 0):
+i = 0
+while (len(gidArr) > 0 and i < 5):
     gid = gidArr.pop()
     t = threading.Thread(target=get_tick, args=(gid,))
     threads.append(t)
+    i = i + 1
 if __name__ == '__main__':
     for t in threads:
         t.start()
