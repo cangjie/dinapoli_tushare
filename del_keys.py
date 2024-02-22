@@ -7,6 +7,6 @@ while (len(all_gids) > 0):
     str_code = str(code)
     str_code = str_code.split(' ')[0].strip().replace('b\'', '')
     print(str(len(all_gids)) + ' ' + str_code)
-    str_key_name = str_code + '_kline_hour'
+    str_key_name = str_code + '_tick'
     redis.delete(str_key_name)
 redis.bgsave()
