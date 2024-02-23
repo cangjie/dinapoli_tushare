@@ -19,7 +19,9 @@ def get_current_os():
 
 def get_sql_server_connect_string():
     return 'DRIVER=' + config.sql_server_driver + ';SERVER=' + config.sql_server_address + ';DATABASE=' \
-           + config.sql_server_db + ';UID=' + config.sql_server_uid  + ';PWD=' + config.sql_server_pwd
+            + config.sql_server_db + ';UID=' + config.sql_server_uid  + ';PWD=' + config.sql_server_pwd \
+            + ';TrustServerCertificate=True'
+
 
 def get_sql_server_conn():
     return pyodbc.connect(get_sql_server_connect_string())
