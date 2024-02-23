@@ -70,7 +70,7 @@ def deal_result(result):
     key = result.gid + '_money'
     startScore = util.get_timestamp(nowDate.strftime('%Y%m%d'), '%Y%m%d')
     endScore = util.get_timestamp(nowDate.strftime('%Y%m%d') + ' 23:59:59', '%Y%m%d %H:%M:%S')
-    tickArr = redis.zrange(key, startScore, endScore, byscore=True)
+    tickArr = redis.zrangebyscore(key, startScore, endScore)
     #tickArr = redis.zrange
     j = 0
     for j in range(0, len(tickArr)):
