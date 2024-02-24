@@ -14,6 +14,7 @@ pro = ts.pro_api()
 api = ''
 gidArr = []
 threadNum = 30
+#nowDate = datetime.datetime.now() + datetime.timedelta(days=-1)
 nowDate = datetime.datetime.now()
 if (not util.is_trans_day(nowDate.strftime('%Y%m%d'))):
     exit(0)
@@ -24,7 +25,12 @@ if (len(sys.argv) >= 3):
     threadNum = int(sys.argv[2])
 
 if (api == ''):
-    gidArr = redis.smembers('all_gids')
+    gidArrOri = redis.smembers('all_gids')
+    i = 0
+    gidArr = []
+    for i in range(0, len(gidArrOri)):
+        gid = gidArrOri.pop().decode('utf-8').split(' ')[0]
+        gidArr.append(gid)
 elif (api.find('/') < 0 ):
     gidArrAll = redis.smembers('all_gids')
     i = 0
@@ -33,13 +39,14 @@ elif (api.find('/') < 0 ):
         if (gid.startswith(api)):
             gidArr.append(gid)
 else:
+    #currentDate = datetime.datetime.now() + datetime.timedelta(days=-1)
     currentDate = datetime.datetime.now()
     if (not (util.is_trans_day(datetime.datetime.strftime(currentDate, '%Y%m%d')))):
         exit(0)
     current_date = util.get_last_trans_day(datetime.datetime.strftime(currentDate, '%Y%m%d'), 1)
     currentDate = datetime.datetime.strptime(current_date, '%Y%m%d')
     current_date = datetime.datetime.strftime(currentDate, '%Y-%m-%d')
-    url = 'http://weixin.goldenma.xyz/api/' + api + '/0?startDate=' +  current_date + '&endDate=' + current_date
+    url = 'http://weixin.goldenma.xyz/api/' + api
     req = urllib.request.urlopen(url)
     ret = req.read()
     jsonStr = ret.decode('utf-8')
@@ -205,6 +212,7 @@ def deal_result(result):
 
 def main_thread():
     while(len(gidArr)>0 or len(results) > 0):
+
         if (len(gidArr) > 0):
             i = 0
             for i in range(0, threadNum):
@@ -252,7 +260,8 @@ def main_thread():
         #    for i in range(0, len(results)):
         #        results[i].try_times = results[i].try_times + 1
         #    time.sleep(1)
-        time.sleep(threadNum*2)
+        print('---------------stop' + str(threadNum * 2) + '------------------------------')
+        time.sleep(threadNum * 2)
         haveSthToSave = False
         i = 0
         for i in range(0, len(results)):
@@ -286,12 +295,12 @@ def main_thread():
         i = 0
         while(len(results) > 0 and i < len(results)):
             result = results[i]
-            if (result.try_times > 100 or (result.finish and result.saved)):
+            if (result.try_times > 2 or (result.finish and result.saved)):
                 results.remove(result)
             else:
                 i = i + 1
 
-
+        print('----------------------------undeal ' + str(len(gidArr)) + ':'  + str(len(results)) + '---------------')
         try:
             redis.bgsave()
         except Exception as err:
@@ -319,23 +328,35 @@ def get_tick(gid):
         newGid = gid[2:8] + '.SH'
     else:
         newGid = gid[2:8] + '.' + gid[0:2].upper()
-    df = ts.realtime_tick(ts_code = newGid)
-    lines = []
-    i = 0
-    for i in range(0, df.index.size):
-        type = 'E'
-        if (df['TYPE'][i] == '买盘'):
-            type = 'U'
-        if (df['TYPE'][i] == '卖盘'):
-            type = 'D'
-        valueStr = df['TIME'][i] + ',' + str(df['PRICE'][i]) + ',' + str(df['CHANGE'][i]) + ',' + str(df['VOLUME'][i]) + ',' + str(df['AMOUNT'][i]) + ',' + type
-        lines.append(valueStr)
-    i = 0
-    for i in range(0, len(results)):
-        if (results[i].gid == gid):
-            results[i].lines = lines
-            deal_result(results[i])
-            break
+
+    try:
+        df = ts.realtime_tick(ts_code = newGid, src='dc')
+        lines = []
+        i = 0
+        for i in range(0, df.index.size):
+            type = 'E'
+            if (df['TYPE'][i] == '买盘'):
+                type = 'U'
+            if (df['TYPE'][i] == '卖盘'):
+                type = 'D'
+            valueStr = df['TIME'][i] + ',' + str(df['PRICE'][i]) + ',' + str(df['CHANGE'][i]) + ',' + str(df['VOLUME'][i]) + ',' + str(df['AMOUNT'][i]) + ',' + type
+            lines.append(valueStr)
+        i = 0
+        for i in range(0, len(results)):
+            if (results[i].gid == gid):
+                if (len(lines) > 0):
+                    results[i].lines = lines
+                    deal_result(results[i])
+                else:
+                    results.remove(results[i])
+                break
+    except Exception as err:
+        print(err)
+        i = 0
+        for i in range(0, len(results)):
+            if (results[i].gid == gid):
+                results.remove(results[i])
+                break
     print(gid + ' end\r\n')
 
 
