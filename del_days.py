@@ -22,4 +22,18 @@ while(len(all_gids) > 0):
                 redis.zrem(key, value)
                 print(str(value))
                 pipe.persist(key)
+    key = str_code + '_money'
+    values = redis.zrange(key, 0, -1)
+    while (len(values) > 0):
+        value = values.pop().decode()
+
+
+        valueArr = str(value).split(',')
+        if (len(valueArr) > 1):
+            dayStr = valueArr[0].split(' ')[0]
+            redisDate = datetime.datetime.strptime(dayStr, '%Y-%m-%d')
+            if (redisDate == currentDate):
+                redis.zrem(key, value)
+                print(str(value))
+                pipe.persist(key)
 redis.bgsave()
